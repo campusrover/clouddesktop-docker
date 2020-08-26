@@ -1,8 +1,10 @@
-.PHONEY: start stop fix update
-start:
+.PHONEY: setup start stop fix update
+setup:
 	@[ -d rospersistent ] || mkdir rospersistent
 	@sed "s|ROSPERSISTENT-PATH|$$(pwd)\/rospersistent|" docker-compose.yaml > .docker-compose.yaml 
-	docker-compose -f .docker-compose.yaml up -d
+
+start: setup
+	docker-compose -f .docker-compose.yaml up -d --remove-orphans
 
 stop:
 	docker-compose -f .docker-compose.yaml down
