@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  clouddesktop:
+    container_name: clouddesktop
+    image: cosi119/tb3-ros:latest
+    network_mode: "host"
+    volumes:
+      - type: volume
+        source: rospersistent
+        target: /my_ros_data
+        volume:
+          nocopy: false
+volumes:
+  rospersistent:
+    driver_opts:
+      type: none
+      device: ROSPERSISTENT-PATH
+      o: bind
