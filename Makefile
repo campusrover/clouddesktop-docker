@@ -13,7 +13,7 @@ fix:
 	docker network prune -f
 	docker container prune -f
 
-update:
+update: setup
 	@git pull
 	@./update.sh
 	@docker-compose -f .docker-compose.yaml pull
