@@ -7,6 +7,7 @@ services:
     environment:
       PASSWORD: dev@ros
       VNC_PASSWORD: dev@ros
+      RESOLUTION: 1920x1080
     volumes:
       - type: bind
         source: /dev/shm
