@@ -1,13 +1,20 @@
 version: '3.7'
 services:
   clouddesktop:
-    container_name: clouddesktop
+    container_name: clouddesktop-rover
     image: cosi119/tb3-ros:latest
-    network_mode: "host"
+    ports:
+      - '80'
+      - '6080'
+      - '2222'
     environment:
+      GW_IP: 172.99.0.1
+      RELAY_IP: 172.99.0.255
       PASSWORD: dev@ros
       VNC_PASSWORD: dev@ros
       RESOLUTION: 1920x1080
+    cap_add:
+      - NET_ADMIN
     volumes:
       - type: bind
         source: /dev/shm
@@ -17,9 +24,79 @@ services:
         target: /my_ros_data
         volume:
           nocopy: false
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.rover_vnc.rule=Host(`vnc.rover.ros.campusrover.org`)"
+      - "traefik.http.routers.rover_vnc.service=rover_vnc"
+      - "traefik.http.services.rover_vnc.loadbalancer.server.port=6080"
+      - "traefik.http.routers.rover_vnc.entrypoints=http"
+      - "traefik.http.routers.rover_vscode.rule=Host(`code.rover.ros.campusrover.org`)"
+      - "traefik.http.routers.rover_vscode.service=rover_vscode"
+      - "traefik.http.services.rover_vscode.loadbalancer.server.port=80"
+      - "traefik.http.routers.rover_vscode.entrypoints=http"
+      - "traefik.tcp.routers.rover_ssh.rule=HostSNI(`ssh.rover.ros.campusrover.org`)"
+      - "traefik.tcp.routers.rover_ssh.service=rover_ssh"
+      - "traefik.tcp.services.rover_ssh.loadbalancer.server.port=2222"
+      - "traefik.tcp.routers.rover_ssh.entrypoints=ssh"
+
+  clouddesktop-relay:
+    container_name: clouddesktop-relay
+    hostname: clouddesktop-relay
+    image: xumr0x/tailscale-relay:latest
+    environment:
+      ROUTES: 172.99.0.0/16
+      AUTHKEY: tskey-123abc
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - type: volume
+        source: rospersistent-relay
+        target: /tailscale
+        volume:
+            nocopy: false
+    networks:
+      clouddesktop-net:
+        ipv4_address: 172.99.0.255
+
+  clouddesktop-proxy:
+    container_name: clouddesktop-proxy
+    hostname: clouddesktop-proxy
+    image: traefik:v2.2
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.ssh.address=:22"
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      clouddesktop-net:
+    labels:
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.ros.campusrover.org`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+
+networks:
+  clouddesktop-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.99.0.0/16
+
 volumes:
   rospersistent:
     driver_opts:
       type: none
       device: ROSPERSISTENT-PATH
+      o: bind
+
+  rospersistent-relay:
+    driver_opts:
+      type: none
+      device: ROSPERSISTENT-RELAY-PATH
       o: bind

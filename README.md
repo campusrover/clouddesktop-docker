@@ -1,4 +1,4 @@
-# Cloud Desktop
+# Cloud Desktop - Docker
 
 Standalone docker image for running `tb3-ros` on your cloud desktop.
 
@@ -21,7 +21,7 @@ Standalone docker image for running `tb3-ros` on your cloud desktop.
   ```
 
 ## Accessing the virtual desktop
-* Browser: http://0.0.0.0:6080/vnc.html
+* Browser: http://0.0.0.0/vnc.html
 * Password is: `dev@ros`
 * Click on desktop and get a tiny menu. Click "terminal"
 * In that terminal do `source setup.bash`
