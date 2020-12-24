@@ -1,0 +1,28 @@
+{
+	"Changes": [{
+		"Action": "CREATE",
+		"ResourceRecordSet": {
+			"Name": "*.rover.ros.campusrover.org.",
+			"Type": "A",
+			"TTL": 3600,
+			"ResourceRecords": [
+				{
+					"Value": ""
+				}
+			]
+		}
+	},
+	{
+		"Action": "CREATE",
+		"ResourceRecordSet": {
+			"Name": "traefik.ros.campusrover.org.",
+			"Type": "A",
+			"TTL": 3600,
+			"ResourceRecords": [
+				{
+					"Value": ""
+				}
+			]
+		}
+	}]
+}
