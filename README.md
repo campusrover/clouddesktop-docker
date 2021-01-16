@@ -11,7 +11,7 @@ Standalone docker image for running `tb3-ros` on your cloud desktop.
 
 * Start the container
   ```bash
-  make start
+  make start tskey=tskey-abc123...
   ```
 
 * Stop the container
