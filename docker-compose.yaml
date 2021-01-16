@@ -2,12 +2,18 @@ version: '3.7'
 services:
   clouddesktop:
     container_name: clouddesktop
-    image: cosi119/tb3-ros:latest
-    network_mode: "host"
+    hostname: clouddesktop
+    image: cosi119/tb3-ros:v2.1.0
+    ports:
+      - '80'
+      - '6080'
+      - '2222'
     environment:
       PASSWORD: dev@ros
       VNC_PASSWORD: dev@ros
       RESOLUTION: 1920x1080
+    cap_add:
+      - NET_ADMIN
     volumes:
       - type: bind
         source: /dev/shm
@@ -17,6 +23,8 @@ services:
         target: /my_ros_data
         volume:
           nocopy: false
+    healthcheck:
+      disable: true
 volumes:
   rospersistent:
     driver_opts:

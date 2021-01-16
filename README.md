@@ -3,25 +3,30 @@
 Standalone docker image for running `tb3-ros` on your cloud desktop.
 
 ## Installation
+
 * `git clone https://github.com/campusrover/clouddesktop-docker`
 * `cd clouddesktop-docker`
 
 ## Commands
+
 * Start the container
   ```bash
   make start
   ```
+
 * Stop the container
   ```bash
   make stop
   ```
-* Update the container to the latest version (**This will restart your environment**)
+
+* Update the container to the latest version (For running on Droplet only)
   ```bash
   make update
   ```
 
 ## Accessing the virtual desktop
-* Browser: http://0.0.0.0:6080/vnc.html
+
+* Browser: http://0.0.0.0:80
 * Password is: `dev@ros`
 * Click on desktop and get a tiny menu. Click "terminal"
 * In that terminal do `source setup.bash`
@@ -29,10 +34,12 @@ Standalone docker image for running `tb3-ros` on your cloud desktop.
 ## Accessing a virtual instance of VSCode for coding
 
 * VSCode is a very popular text editor
+
 * You can get to it with http://0.0.0.0:8080
 * Password is: `dev@ros`
 
 ## Setup SSH for remote access
+
 * To enable ssh, first login using virtual desktop/VScode
 * Open up the terminal
 * Run `sudo passwd root` to setup a password

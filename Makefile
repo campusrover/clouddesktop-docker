@@ -1,10 +1,13 @@
 .PHONEY: setup start stop fix update
+
+tskey=abc123
+
 setup:
 	@[ -d rospersistent ] || mkdir rospersistent
-	@sed "s|ROSPERSISTENT-PATH|$$(pwd)\/rospersistent|" docker-compose.yaml > .docker-compose.yaml 
+	@sed "s|ROSPERSISTENT-PATH|$$(pwd)\/rospersistent|" docker-compose.yaml > .docker-compose.yaml
 
 start: setup
-	docker-compose -f .docker-compose.yaml up -d --remove-orphans
+	docker-compose -f .docker-compose.yaml up -d --remove-orphans -e AUTHKEY=$(tskey)
 
 stop:
 	docker-compose -f .docker-compose.yaml down
