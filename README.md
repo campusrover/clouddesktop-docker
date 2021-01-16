@@ -1,6 +1,6 @@
 # Cloud Desktop
 
-Standalone docker image for running `tb3-ros` on your cloud desktop.
+Standalone docker image for running `tb3-ros` locally.
 
 ## Installation
 
