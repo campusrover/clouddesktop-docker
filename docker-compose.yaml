@@ -3,7 +3,7 @@ services:
   clouddesktop:
     container_name: clouddesktop
     hostname: clouddesktop
-    image: cosi119/tb3-ros:v2.1.0
+    image: cosi119/tb3-ros:v2.1.1
     ports:
       - '80'
       - '6080'
