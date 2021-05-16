@@ -5,13 +5,15 @@ services:
     hostname: clouddesktop
     image: cosi119/tb3-ros:v2.1.1
     ports:
-      - '80'
-      - '6080'
-      - '2222'
+      - '80:80'
+      - '8080:8080'
+      - '5900:5900'
+      - '2222:2222'
     environment:
       PASSWORD: dev@ros
       VNC_PASSWORD: dev@ros
       RESOLUTION: 1920x1080
+      AUTHKEY: tskey-abc123
     cap_add:
       - NET_ADMIN
     volumes:
@@ -27,7 +29,3 @@ services:
       disable: true
 volumes:
   rospersistent:
-    driver_opts:
-      type: none
-      device: ROSPERSISTENT-PATH
-      o: bind

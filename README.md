@@ -1,17 +1,29 @@
 # Cloud Desktop
 
-Standalone docker image for running `tb3-ros` locally.
+Standalone docker image for running `cosi119/tb3-ros` locally.
 
 ## Installation
 
-* `git clone https://github.com/campusrover/clouddesktop-docker`
-* `cd clouddesktop-docker`
+Clone this repo.
+
+Add the Tailscale key if you need access to a tailscale network, by modifying the `docker-compose.yaml` file,
+
+```diff
+environment:
+  PASSWORD: dev@ros
+  VNC_PASSWORD: dev@ros
+  RESOLUTION: 1920x1080
+-  AUTHKEY: tskey-abc123
++  AUTHKEY: <your key here>
+cap_add:
+  - NET_ADMIN
+```
 
 ## Commands
 
 * Start the container
   ```bash
-  make start tskey=tskey-abc123...
+  make start
   ```
 
 * Stop the container
@@ -24,6 +36,11 @@ Standalone docker image for running `tb3-ros` locally.
   make update
   ```
 
+* Copy the container files to local
+  ```bash
+  make copy
+  ```
+
 ## Accessing the virtual desktop
 
 * Browser: http://0.0.0.0:80
@@ -34,9 +51,12 @@ Standalone docker image for running `tb3-ros` locally.
 ## Accessing a virtual instance of VSCode for coding
 
 * VSCode is a very popular text editor
-
 * You can get to it with http://0.0.0.0:8080
 * Password is: `dev@ros`
+
+## Accessing via VNC
+
+* VNC port is `5900`
 
 ## Setup SSH for remote access
 
